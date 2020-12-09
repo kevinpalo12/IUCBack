@@ -8,7 +8,11 @@ import javax.persistence.*;
 @Table(name = "estudiantes")
 public class Estudiante{
 	
+
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
 	@Column(length = 20, nullable=false, unique=true)
 	private String documento;
 	
@@ -19,13 +23,18 @@ public class Estudiante{
 	private String apellido; 
 		
 	@ManyToOne( cascade = CascadeType.ALL)
-	@JoinColumn(name = "fk_grupo", nullable = false)
+	@JoinColumn(name = "grupo",nullable=false, foreignKey = @ForeignKey(name="FK_GRUPO_KEY"))
 	private Grupo grupo;
 	
 	@Column(name = "create_at")
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
+	
 
+	@PrePersist
+	public void prePersist() {
+		createAt = new Date();
+	}
 
 
 	public String getDocumento() {
