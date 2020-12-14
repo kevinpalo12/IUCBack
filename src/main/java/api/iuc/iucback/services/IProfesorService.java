@@ -4,7 +4,7 @@ import api.iuc.iucback.entity.Profesor;
 
 public interface IProfesorService {
 
-	public Profesor save(Profesor cliente);
+	public Profesor save(Profesor profesor);
 	
 	public Profesor findById(Long id);
 }

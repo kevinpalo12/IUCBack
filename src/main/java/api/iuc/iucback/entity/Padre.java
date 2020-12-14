@@ -17,14 +17,51 @@ public class Padre {
 	
 	private String nombre;
 	
-	private String apellido; 
-	
 	private String telefono; 
 	
 	@Column(name="telefono_alterno")
 	private String telefonoAlterno;
 	
 	private String clave;
+	
+	@Column(unique = true)
+	private String usuario;
+
+	private String apellido;
+	
+	
+	public Padre() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Padre(Long id, String nombre, String telefono, String telefonoAlterno, String clave, String usuario,
+			String apellido) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.telefono = telefono;
+		this.telefonoAlterno = telefonoAlterno;
+		this.clave = clave;
+		this.usuario = usuario;
+		this.apellido = apellido;
+	}
+
+	public String getApellido() {
+		return apellido;
+	}
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
 
 	public Long getId() {
 		return id;
@@ -40,14 +77,6 @@ public class Padre {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public String getApellido() {
-		return apellido;
-	}
-
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
 	}
 
 	public String getTelefono() {
