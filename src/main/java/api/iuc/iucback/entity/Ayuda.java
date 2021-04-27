@@ -1,6 +1,8 @@
 package api.iuc.iucback.entity;
 
 import java.util.Date;
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Collection;
 import javax.persistence.*;
@@ -13,7 +15,7 @@ public class Ayuda {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String descripcion;
 
 	@Column(name = "entregado_desde", nullable = false)
@@ -22,15 +24,18 @@ public class Ayuda {
 
 	private boolean activo;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "AYUDAS_ESTUDIANTES", joinColumns = @JoinColumn(name = "AYUDA_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ESTUDIANTE_ID", referencedColumnName = "ID"))
-	@OrderBy
-	@JsonIgnore
-	private Collection<Estudiante> estudiantes;
-
 	@Column(name = "ultima_entrega")
 	@Temporal(TemporalType.DATE)
 	private Date ultimaEntrega;
+
+	@Column(name = "proxima_entrega")
+	@Temporal(TemporalType.DATE)
+	private Date proximaEntrega;
+	
+	@PrePersist
+	public void prePersist() {
+		proximaEntrega = ultimaEntrega;
+	}
 
 	public Long getId() {
 		return id;
@@ -64,6 +69,13 @@ public class Ayuda {
 		this.activo = activo;
 	}
 
+	public Date getProximaEntrega() {
+		return proximaEntrega;
+	}
+
+	public void setProximaEntrega(Date proximaEntrega) {
+		this.proximaEntrega = proximaEntrega;
+	}
 
 	public Date getUltimaEntrega() {
 		return ultimaEntrega;
@@ -71,14 +83,6 @@ public class Ayuda {
 
 	public void setUltimaEntrega(Date ultimaEntrega) {
 		this.ultimaEntrega = ultimaEntrega;
-	}
-
-	public Collection<Estudiante> getEstudiantes() {
-		return estudiantes;
-	}
-
-	public void setEstudiantes(Collection<Estudiante> estudiantes) {
-		this.estudiantes = estudiantes;
 	}
 
 }

@@ -8,12 +8,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "padres")
-public class Padre {
+@Table(name = "acudientes")
+public class Acudiente {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id; 
+	
+	@Column(unique = true)
+	private String cedula;
 	
 	private String nombre;
 	
@@ -23,28 +26,27 @@ public class Padre {
 	private String telefonoAlterno;
 	
 	private String clave;
-	
-	@Column(unique = true)
-	private String usuario;
 
 	private String apellido;
 	
+	private String direccion;
 	
-	public Padre() {
+	public Acudiente() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Padre(Long id, String nombre, String telefono, String telefonoAlterno, String clave, String usuario,
-			String apellido) {
+	public Acudiente(Long id, String nombre, String telefono, String telefonoAlterno, String clave, String usuario,
+			String apellido, String direccion, String cedula) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
+		this.cedula=cedula;
 		this.telefono = telefono;
 		this.telefonoAlterno = telefonoAlterno;
 		this.clave = clave;
-		this.usuario = usuario;
 		this.apellido = apellido;
+		this.direccion=direccion;
 	}
 
 	public String getApellido() {
@@ -55,12 +57,13 @@ public class Padre {
 		this.apellido = apellido;
 	}
 
-	public String getUsuario() {
-		return usuario;
+
+	public String getCedula() {
+		return cedula;
 	}
 
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
+	public void setCedula(String cedula) {
+		this.cedula = cedula;
 	}
 
 	public Long getId() {
@@ -69,6 +72,14 @@ public class Padre {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
 	}
 
 	public String getNombre() {
@@ -102,7 +113,5 @@ public class Padre {
 	public void setClave(String clave) {
 		this.clave = clave;
 	}
-	
-	
 	
 }

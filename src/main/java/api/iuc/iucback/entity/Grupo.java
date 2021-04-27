@@ -2,15 +2,17 @@ package api.iuc.iucback.entity;
 
 import javax.persistence.*;
 
+
 @Entity
+@Table(uniqueConstraints={
+    @UniqueConstraint(columnNames = {"grado", "identificador"})
+}) 
 public class Grupo {
-	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id; 
 	
-
 	@Column(nullable = false, length = 2)
 	private String grado;
 	

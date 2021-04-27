@@ -13,14 +13,11 @@ public class Profesor {
 	@Column(nullable = false)
 	private String nombre;
 		
-	@Column(nullable = false)
+	@Column(nullable = false, unique=true)
 	private String correo;
 
 	@Column(nullable = false, length = 10)
 	private String telefono;
-	
-	@Column(unique=true)
-	private String usuario;
 	
 	private String clave;
 	
@@ -31,22 +28,13 @@ public class Profesor {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Profesor(Long id, String nombre, String correo, String telefono, String usuario, String clave) {
+	public Profesor(Long id, String nombre, String correo, String telefono, String clave) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.correo = correo;
 		this.telefono = telefono;
-		this.usuario = usuario;
 		this.clave = clave;
-	}
-
-	public String getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(String usario) {
-		this.usuario = usario;
 	}
 
 	public String getClave() {

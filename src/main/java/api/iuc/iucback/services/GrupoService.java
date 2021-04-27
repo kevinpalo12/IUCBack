@@ -2,9 +2,14 @@ package api.iuc.iucback.services;
 
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import api.iuc.iucback.entity.Estudiante;
 import api.iuc.iucback.entity.Grupo;
 import api.iuc.iucback.repository.GrupoDao;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,5 +31,12 @@ public class GrupoService implements IGrupoService {
 	public Grupo findById(Long id) {
 		return grupoDao.findById(id).orElse(null);
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Grupo> findAll() {
+		return grupoDao.findAll();
+	}
+	
 
 }
