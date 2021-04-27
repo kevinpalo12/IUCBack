@@ -33,7 +33,6 @@ public class Acudiente {
 	
 	public Acudiente() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Acudiente(Long id, String nombre, String telefono, String telefonoAlterno, String clave, String usuario,

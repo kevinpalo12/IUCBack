@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.data.domain.Page;
 
 import api.iuc.iucback.entity.Ayuda;
-import api.iuc.iucback.entity.Estudiante;
 
 public interface IAyudaService {
 

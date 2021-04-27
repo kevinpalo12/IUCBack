@@ -5,7 +5,6 @@ import java.util.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import api.iuc.iucback.entity.Ayuda;
 import api.iuc.iucback.entity.Estudiante;
 
 public interface IEstudianteService {

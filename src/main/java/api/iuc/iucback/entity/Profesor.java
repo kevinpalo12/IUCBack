@@ -25,7 +25,6 @@ public class Profesor {
 	
 	public Profesor() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Profesor(Long id, String nombre, String correo, String telefono, String clave) {

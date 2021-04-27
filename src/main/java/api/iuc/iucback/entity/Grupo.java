@@ -65,7 +65,6 @@ public class Grupo {
 
 	public Grupo() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	

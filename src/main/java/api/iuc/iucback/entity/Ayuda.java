@@ -1,10 +1,6 @@
 package api.iuc.iucback.entity;
 
 import java.util.Date;
-import java.util.Set;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.Collection;
 import javax.persistence.*;
 
 @Entity

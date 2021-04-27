@@ -1,6 +1,5 @@
 package api.iuc.iucback.entity;
 
-import java.time.Period;
 import java.util.Date;
 import java.util.Set;
 
@@ -46,7 +45,6 @@ public class Estudiante {
 	@ManyToMany
 	Set<Ayuda> ayudas;
 
-	@SuppressWarnings("deprecation")
 	@PrePersist
 	public void prePersist() {
 
@@ -150,7 +148,6 @@ public class Estudiante {
 
 	public Estudiante() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Estudiante(Long id, String documento, String nombre, String apellido, Grupo grupo, Date createAt,

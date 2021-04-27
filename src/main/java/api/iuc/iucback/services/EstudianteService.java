@@ -1,12 +1,10 @@
 package api.iuc.iucback.services;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,14 +14,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import api.iuc.iucback.entity.Ayuda;
 import api.iuc.iucback.entity.Estudiante;
 import api.iuc.iucback.repository.EstudianteDao;
-import org.hibernate.type.TimestampType;
 
 @Service
 public class EstudianteService implements IEstudianteService {
-	private static final TimeZone UTC = TimeZone.getTimeZone("UTC");
 	
 	@Autowired
 	private EstudianteDao estudianteDao;

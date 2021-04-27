@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import api.iuc.iucback.entity.Estudiante;
-import api.iuc.iucback.entity.Grupo;
 import api.iuc.iucback.entity.Profesor;
 import api.iuc.iucback.services.IProfesorService;
 

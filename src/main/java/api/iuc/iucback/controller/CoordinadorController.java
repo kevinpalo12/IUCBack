@@ -1,7 +1,6 @@
 package api.iuc.iucback.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import api.iuc.iucback.entity.Estudiante;
-import api.iuc.iucback.entity.Grupo;
-import api.iuc.iucback.entity.Profesor;
-import api.iuc.iucback.services.AyudaService;
 import api.iuc.iucback.services.IAyudaService;
 import api.iuc.iucback.services.IEstudianteService;
 import api.iuc.iucback.services.IGrupoService;

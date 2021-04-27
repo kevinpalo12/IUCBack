@@ -151,7 +151,7 @@ public class EstudianteController {
 	public ResponseEntity<?> agregarAyuda(@PathVariable Long idEstudiante, @PathVariable Long idAyuda) {
 		Map<String, Object> response = new HashMap<>();
 		Estudiante estudianteActual = estudianteService.findById(idEstudiante);
-		Estudiante estudianteActualizado = null;
+		
 
 		if (estudianteActual == null) {
 			response.put("mensaje", "el estudiante ID: ".concat(
@@ -166,7 +166,6 @@ public class EstudianteController {
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 			}
 			estudianteActual.addAyuda(ayuda);
-			estudianteActualizado = estudianteService.save(estudianteActual);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al actualizar el estudiante en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
