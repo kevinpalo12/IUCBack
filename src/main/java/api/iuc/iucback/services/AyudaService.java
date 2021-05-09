@@ -1,7 +1,6 @@
 package api.iuc.iucback.services;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,11 +29,6 @@ public class AyudaService implements IAyudaService {
 	@Override
 	@Transactional
 	public Ayuda save(Ayuda ayuda) {
-		if (ayuda.getEntregadoDesde() == null) {
-			Date date = new Date();
-			ayuda.setEntregadoDesde(date);
-			ayuda.setUltimaEntrega(date);
-		}
 		return ayudaDao.save(ayuda);
 	}
 
@@ -58,9 +52,9 @@ public class AyudaService implements IAyudaService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Page<Map<String, Object>> findAllEstudiantes(String documento, String idGrupo, String idAyuda, int page) {
+	public Page<Map<String, Object>> findAllEstudiantes(String descripcion, int page) {
 		Pageable pageable = PageRequest.of(page, 10);
-		List<Map<String, Object>> listEstudiantes = ayudaDao.listAyudasFilter(documento, idGrupo, idAyuda);
+		List<Map<String, Object>> listEstudiantes = ayudaDao.listAyudasFilter(descripcion);
 		List<Map<String, Object>> fin = new ArrayList<>();
 
 		int tamano = 10;

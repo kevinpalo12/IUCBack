@@ -1,5 +1,6 @@
 package api.iuc.iucback.controller;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -31,7 +32,6 @@ public class AyudaController {
 	@Autowired
 	private IAyudaService ayudaService;
 
-
 	@GetMapping("/all")
 	public List<Ayuda> index() {
 		return ayudaService.findAll();
@@ -43,11 +43,11 @@ public class AyudaController {
 	}
 
 	@PostMapping("/create")
-	public ResponseEntity<?> create(@RequestBody Ayuda ayuda) {
+	public ResponseEntity<?> create(@RequestBody Ayuda ayuda) throws ParseException {
 		Ayuda ayudaNew = null;
 		Map<String, Object> response = new HashMap<>();
 		try {
-
+			ayuda.cambiarDia();
 			ayudaNew = ayudaService.save(ayuda);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al realizar la consulta en la base de datos");
@@ -59,14 +59,16 @@ public class AyudaController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 
-	@PostMapping("/listFiltro/{page}")
-	public ResponseEntity<?> listFiltro(@RequestBody Map<String, String> filtro, @PathVariable int page) {
+	@GetMapping("/listFiltro/{descripcion}/{page}")
+	public ResponseEntity<?> listFiltro(@PathVariable String descripcion, @PathVariable int page) {
 		Page<Map<String, Object>> lista = null;
 		Map<String, Object> response = new HashMap<>();
 		try {
-			lista = ayudaService.findAllEstudiantes(filtro.get("documento"), filtro.get("idGrupo"),  filtro.get("idAyuda"),page);
-			
-			
+			if (descripcion.equals("@@")) {
+				descripcion="%%";
+			}
+			lista = ayudaService.findAllEstudiantes(descripcion, page);
+
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al realizar la consulta en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -90,10 +92,9 @@ public class AyudaController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}
 		try {
-			ayudaActual.setUltimaEntrega(ayudaActual.getProximaEntrega());
 			Date nuevaFecha = new SimpleDateFormat("yyyy-MM-dd").parse(proxima.get("proxima").toString());
-			ayudaActual.setProximaEntrega(nuevaFecha);
-			System.out.println(ayudaActual.getProximaEntrega());
+			ayudaActual.setId(null);
+			ayudaActual.setFechaEntrega(nuevaFecha);
 			ayudaActualizada = ayudaService.save(ayudaActual);
 
 		} catch (DataAccessException e) {

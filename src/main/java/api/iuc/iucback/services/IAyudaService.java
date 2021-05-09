@@ -17,5 +17,5 @@ public interface IAyudaService {
 	
 	public List<Map<String, Object>> listarCantidad();
 	
-	public Page<Map<String, Object>> findAllEstudiantes(String documento, String idGrupo, String idAyuda, int page);
+	public Page<Map<String, Object>> findAllEstudiantes(String descripcion, int page);
 }
