@@ -31,6 +31,12 @@ public class AyudaService implements IAyudaService {
 	public Ayuda save(Ayuda ayuda) {
 		return ayudaDao.save(ayuda);
 	}
+	
+	@Override
+	@Transactional
+	public List<String> cantAyudas() {
+		return ayudaDao.cantAyudas();
+	}
 
 	@Override
 	@Transactional(readOnly = true)
@@ -73,4 +79,6 @@ public class AyudaService implements IAyudaService {
 		Page<Map<String, Object>> paginas = new PageImpl<Map<String, Object>>(fin, pageable, listEstudiantes.size());
 		return paginas;
 	}
+	
+	
 }

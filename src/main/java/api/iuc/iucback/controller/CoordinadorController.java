@@ -45,7 +45,7 @@ public class CoordinadorController {
 			 map.put("estudiantes", estudiantes);
 			 String grupos = grupoService.findAll().size()+"";
 			 map.put("grupos", grupos);
-			 String ayudas = ayudaService.findAll().size()+"";
+			 String ayudas = ayudaService.cantAyudas().size()+"";
 			 map.put("ayudas", ayudas);
 			 String profesor = profesorService.findAll().size()+"";
 			 map.put("profesor", profesor);

@@ -5,14 +5,15 @@ import java.util.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import api.iuc.iucback.entity.Actividad;
+import api.iuc.iucback.entity.ActividadEstudiante;
 import api.iuc.iucback.entity.Estudiante;
 
 public interface IEstudianteService {
 
 	public Estudiante save(Estudiante estudiante);
 	
-	public List<Estudiante> findAll();
-	
+	public List<Estudiante> findAll();	
 
 	public Page<Estudiante> findAll(Pageable pegeable);
 	
@@ -29,5 +30,11 @@ public interface IEstudianteService {
 	public void delete(Long id);
 	
 	public List<Map<String, Object>> findAyudas(Long id);
+	
+	public List<Map<String, Object>> findActividades(Long Id);
+	
+	public ActividadEstudiante setActividad(ActividadEstudiante actividad);
+	
+	
 	
 }

@@ -1,5 +1,6 @@
 package api.iuc.iucback.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,10 +25,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import api.iuc.iucback.entity.Estudiante;
 import api.iuc.iucback.entity.Grupo;
+import api.iuc.iucback.entity.ActividadEstudiante;
 import api.iuc.iucback.entity.Acudiente;
 import api.iuc.iucback.entity.Ayuda;
 import api.iuc.iucback.services.IEstudianteService;
 import api.iuc.iucback.services.IGrupoService;
+import api.iuc.iucback.services.IActividadService;
 import api.iuc.iucback.services.IAcudienteService;
 import api.iuc.iucback.services.IAyudaService;
 
@@ -46,6 +50,9 @@ public class EstudianteController {
 
 	@Autowired
 	private IAyudaService ayudaService;
+	
+	@Autowired
+	private IActividadService actividadService;
 
 	@GetMapping("/all")
 	public List<Estudiante> index() {
@@ -88,7 +95,6 @@ public class EstudianteController {
 			Acudiente padre = acudienteService.findById(estudiante.getAcudiente().getId());
 			estudiante.setAcudienteId(padre);
 			estudiante.cambiarDia();
-			System.out.println(estudiante.getNacimiento());
 			estudianteNew = estudianteService.save(estudiante);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al realizar la consulta en la base de datos");
@@ -135,6 +141,12 @@ public class EstudianteController {
 			if (estudiante.getNacimiento() != null) {
 				estudianteActual.setNacimiento(estudiante.getNacimiento());
 			}
+			if (estudiante.getDesplazado() != null) {
+				estudianteActual.setDesplazado(estudiante.getDesplazado());
+			}
+			if (estudiante.getEPS() != null) {
+				estudianteActual.setEPS(estudiante.getEPS());
+			}
 			estudianteActualizado = estudianteService.save(estudianteActual);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al actualizar el estudiante en la base de datos");
@@ -166,6 +178,7 @@ public class EstudianteController {
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 			}
 			estudianteActual.addAyuda(ayuda);
+			estudianteService.save(estudianteActual);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al actualizar el estudiante en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -200,6 +213,44 @@ public class EstudianteController {
 	@GetMapping("/ayudas/{id}")
 	public List<Map<String, Object>> ayudasById(@PathVariable Long id) {
 		return estudianteService.findAyudas(id);
+	}
+	
+	@GetMapping("/{id}")
+	public Estudiante getEstudiante(@PathVariable Long id) {
+		return estudianteService.findById(id);
+	}
+	
+	@PostMapping("/agregarActividadEstudiante")
+	public ResponseEntity<?> agregarActividadEstudiante(@RequestBody ActividadEstudiante actividad){
+		Map<String, Object> response = new HashMap<>();	
+		
+		try {
+			actividad.setEstudiante(estudianteService.findById(actividad.getEstudiante().getId()));
+			actividad.setActividad(actividadService.findById(actividad.getActividad().getId()));
+			ActividadEstudiante actividadNueva = estudianteService.setActividad(actividad);
+			response.put("respuesta",actividadNueva);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al eliminar el estudiante en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);	
+	}
+	
+	@GetMapping("/actividades/{id}")
+	public ResponseEntity<?> actividadesEstudiantes(@PathVariable Long id){
+		Map<String, Object> response = new HashMap<>();	
+		
+		try {
+
+			
+			response.put("respuesta",estudianteService.findActividades(id));
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al eliminar el estudiante en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);	
 	}
 
 }

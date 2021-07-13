@@ -14,7 +14,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import api.iuc.iucback.entity.Actividad;
+import api.iuc.iucback.entity.ActividadEstudiante;
 import api.iuc.iucback.entity.Estudiante;
+import api.iuc.iucback.repository.ActividadEstudianteDao;
 import api.iuc.iucback.repository.EstudianteDao;
 
 @Service
@@ -23,7 +26,8 @@ public class EstudianteService implements IEstudianteService {
 	@Autowired
 	private EstudianteDao estudianteDao;
 	
-	
+	@Autowired
+	private ActividadEstudianteDao actividadEstudianteDao;
 	
 	@Override
 	@Transactional
@@ -56,7 +60,10 @@ public class EstudianteService implements IEstudianteService {
 	@Override
 	@Transactional(readOnly = true)
 	public Estudiante findById(Long id) {
-		return estudianteDao.findById(id).orElse(null);
+		Estudiante estudiante =  estudianteDao.findById(id).orElse(null);
+		estudiante.setEdad(calcularEdad(estudiante));
+		estudianteDao.save(estudiante);
+		return estudiante;
 	}
 
 
@@ -144,5 +151,20 @@ public class EstudianteService implements IEstudianteService {
 	@Transactional(readOnly = true)
 	public List<Map<String, Object>> findAyudas(Long id) {
 		return estudianteDao.findAyudas(id);
+	}
+
+
+
+	@Override
+	public List<Map<String, Object>> findActividades(Long id) {
+		// TODO Auto-generated method stub
+		return actividadEstudianteDao.findActividad(id);
+	}
+
+
+
+	@Override
+	public ActividadEstudiante setActividad(ActividadEstudiante actividad) {
+		return actividadEstudianteDao.save(actividad);
 	}
 }

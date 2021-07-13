@@ -31,6 +31,10 @@ public class Acudiente {
 	
 	private String direccion;
 	
+	private String barrio;
+	
+	private String estrato;
+	
 	public Acudiente() {
 		super();
 	}
@@ -50,6 +54,22 @@ public class Acudiente {
 
 	public String getApellido() {
 		return apellido;
+	}
+
+	public String getBarrio() {
+		return barrio;
+	}
+
+	public void setBarrio(String barrio) {
+		this.barrio = barrio;
+	}
+
+	public String getEstrato() {
+		return estrato;
+	}
+
+	public void setEstrato(String estrato) {
+		this.estrato = estrato;
 	}
 
 	public void setApellido(String apellido) {

@@ -19,6 +19,8 @@ public class RegistroPsicologico {
 	@Column(columnDefinition="TEXT")
 	private String anotacion;
 	
+	private String diagnostico;
+	
 	@Column(name = "create_at", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
@@ -58,6 +60,14 @@ public class RegistroPsicologico {
 
 	public void setCreateAt(Date createAt) {
 		this.createAt = createAt;
+	}
+
+	public String getDiagnostico() {
+		return diagnostico;
+	}
+
+	public void setDiagnostico(String diagnostico) {
+		this.diagnostico = diagnostico;
 	}
 
 

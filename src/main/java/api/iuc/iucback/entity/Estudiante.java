@@ -1,6 +1,7 @@
 package api.iuc.iucback.entity;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -22,9 +23,16 @@ public class Estudiante {
 	@Column(nullable = false)
 	private String apellido;
 
+	private String EPS;
+	
+	private String desplazado;
+
 	@ManyToOne()
 	@JoinColumn(name = "grupo", nullable = false, foreignKey = @ForeignKey(name = "FK_ESTUDIANTE_GRUPO"))
 	private Grupo grupo;
+	
+	 @OneToMany(mappedBy = "actividad")
+	    private Set<ActividadEstudiante> actividad = new HashSet<ActividadEstudiante>();
 
 	@Column(name = "create_at")
 	@Temporal(TemporalType.DATE)
@@ -33,7 +41,25 @@ public class Estudiante {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date nacimiento;
 
+	public String getParentesco() {
+		return parentesco;
+	}
+
+	public void setParentesco(String parentesco) {
+		this.parentesco = parentesco;
+	}
+
+	public Set<Ayuda> getAyudas() {
+		return ayudas;
+	}
+
+	public void setAyudas(Set<Ayuda> ayudas) {
+		this.ayudas = ayudas;
+	}
+
 	private Integer edad;
+	
+	private String parentesco;
 
 	@ManyToOne()
 	@JoinColumn(name = "acudiente_id", nullable = false, foreignKey = @ForeignKey(name = "FK_ESTUDIANTE_PADRE"))
@@ -44,10 +70,10 @@ public class Estudiante {
 
 	@ManyToMany
 	Set<Ayuda> ayudas;
+	
 
 	@PrePersist
 	public void prePersist() {
-
 		estado = "MATRICULADO";
 		createAt = new Date();
 	}
@@ -164,6 +190,23 @@ public class Estudiante {
 		this.acudiente = acudiente;
 		this.estado = estado;
 	}
+
+	public String getEPS() {
+		return EPS;
+	}
+
+	public void setEPS(String ePS) {
+		EPS = ePS;
+	}
+
+	public String getDesplazado() {
+		return desplazado;
+	}
+
+	public void setDesplazado(String desplazado) {
+		this.desplazado = desplazado;
+	}
+
 
 
 }

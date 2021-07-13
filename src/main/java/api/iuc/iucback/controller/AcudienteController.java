@@ -62,6 +62,7 @@ public class AcudienteController {
 		response.put("acudiente", padreNew );
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
+	
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@RequestBody Acudiente acudiente, @PathVariable Long id) {
 		Acudiente acudienteActual = acudienteService.findById(id);

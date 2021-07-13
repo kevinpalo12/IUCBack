@@ -12,7 +12,7 @@ import api.iuc.iucback.entity.Ayuda;
 public interface AyudaDao extends JpaRepository<Ayuda, Long>{
 
 	
-	@Query(value="SELECT e.* FROM ayudas_estudiantes e " +
+	@Query(value="SELECT e.* FROM estudiantes_ayudas e " +
 			   "WHERE e.estudiantes_id ilike %:id%", nativeQuery = true)
 		Object findByEstudiante(@Param("id") String id);
 	
@@ -20,7 +20,11 @@ public interface AyudaDao extends JpaRepository<Ayuda, Long>{
 			   "ayudas ay on ay.id = e.ayudas_id group by ay.descripcion order by count desc", nativeQuery = true)
 	List<Map<String, Object>> listAyudasCantidad();
 	
-	@Query(value="SELECT t.estudiante_id, t.ayudas_id, t.descripcion as ayuda, es.nombre, es.apellido, es.grupo, es.documento FROM (estudiantes_ayudas e RIGHT JOIN (select id, t1.fecha_entrega,t1.descripcion from (select Max(fecha_entrega) as fecha_entrega, descripcion from ayudas GROUP BY descripcion) t1 join ayudas t2 on t1.descripcion = t2.descripcion and t1.fecha_entrega = t2.fecha_entrega) ay on ay.id = e.ayudas_id) t Right join estudiantes es on t.estudiante_id=es.id\r\n"
-			+ "		where	t.descripcion ilike :descripcion", nativeQuery = true)
-	List<Map<String, Object>> listAyudasFilter(@Param("descripcion") String descripcion);
+	@Query(value="SELECT tt.estudiante_id, tt.ayudas_id, tt.nombre, tt.apellido, tt.grupo, tt.documento, y.descripcion as ayuda, y.fecha_entrega as fecha "
+			+ "FROM (estudiantes es left join estudiantes_ayudas t on t.estudiante_id=es.id) tt left join ayudas y on tt.ayudas_id=y.id"
+			+ " where tt.ayudas_id\\:\\:varchar(255) ilike %:id% order by fecha desc", nativeQuery = true)
+	List<Map<String, Object>> listAyudasFilter(@Param("id") String id);
+	
+	@Query(value="SELECT  descripcion FROM public.ayudas group by descripcion;", nativeQuery = true)
+	List<String> cantAyudas();
 }
