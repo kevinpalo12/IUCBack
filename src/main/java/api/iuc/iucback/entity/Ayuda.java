@@ -1,12 +1,12 @@
 package api.iuc.iucback.entity;
 
 import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.Collection;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ayudas")
+@Table(name = "ayudas",uniqueConstraints={
+	    @UniqueConstraint(columnNames = {"descripcion", "fecha_entrega"})
+	})
 public class Ayuda {
 
 	@Id
@@ -16,21 +16,29 @@ public class Ayuda {
 	@Column(nullable = false)
 	private String descripcion;
 
-	@Column(name = "entregado_desde", nullable = false)
+	@Column(name = "fecha_entrega",nullable = false)
 	@Temporal(TemporalType.DATE)
-	private Date entregadoDesde;
+	private Date fechaEntrega;
+	
+	
+	@PrePersist
+	public void prePersist() {
 
-	private boolean activo;
+		descripcion=descripcion.toUpperCase();
+	}
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "AYUDAS_ESTUDIANTES", joinColumns = @JoinColumn(name = "AYUDA_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ESTUDIANTE_ID", referencedColumnName = "ID"))
-	@OrderBy
-	@JsonIgnore
-	private Collection<Estudiante> estudiantes;
+	public Date getFechaEntrega() {
+		return fechaEntrega;
+	}
 
-	@Column(name = "ultima_entrega")
-	@Temporal(TemporalType.DATE)
-	private Date ultimaEntrega;
+	public void setFechaEntrega(Date fechaEntrega) {
+		this.fechaEntrega = fechaEntrega;
+	}
+	@SuppressWarnings("deprecation")
+	public void cambiarDia() {
+		this.fechaEntrega.setDate(this.fechaEntrega.getDate() + 1);
+		this.fechaEntrega.setHours(0);
+	}
 
 	public Long getId() {
 		return id;
@@ -48,37 +56,6 @@ public class Ayuda {
 		this.descripcion = descripcion;
 	}
 
-	public Date getEntregadoDesde() {
-		return entregadoDesde;
-	}
 
-	public void setEntregadoDesde(Date entregadoDesde) {
-		this.entregadoDesde = entregadoDesde;
-	}
-
-	public boolean isActivo() {
-		return activo;
-	}
-
-	public void setActivo(boolean activo) {
-		this.activo = activo;
-	}
-
-
-	public Date getUltimaEntrega() {
-		return ultimaEntrega;
-	}
-
-	public void setUltimaEntrega(Date ultimaEntrega) {
-		this.ultimaEntrega = ultimaEntrega;
-	}
-
-	public Collection<Estudiante> getEstudiantes() {
-		return estudiantes;
-	}
-
-	public void setEstudiantes(Collection<Estudiante> estudiantes) {
-		this.estudiantes = estudiantes;
-	}
 
 }

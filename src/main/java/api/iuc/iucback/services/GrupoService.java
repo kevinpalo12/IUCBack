@@ -2,6 +2,8 @@ package api.iuc.iucback.services;
 
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +28,12 @@ public class GrupoService implements IGrupoService {
 	public Grupo findById(Long id) {
 		return grupoDao.findById(id).orElse(null);
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Grupo> findAll() {
+		return grupoDao.findAll();
+	}
+	
 
 }
