@@ -3,8 +3,11 @@ package api.iuc.iucback.services;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import api.iuc.iucback.entity.Grupo;
@@ -33,6 +36,16 @@ public class GrupoService implements IGrupoService {
 	@Transactional(readOnly = true)
 	public List<Grupo> findAll() {
 		return grupoDao.findAll();
+	}
+
+	@Override
+	public Page<Grupo> findAll(Pageable pegeable) {
+		return grupoDao.findAll(pegeable);
+	}
+
+	@Override
+	public Map<String, Object> getNroEstudiantes(Long id) {
+		return grupoDao.getNroEstudiantes(id);
 	}
 	
 

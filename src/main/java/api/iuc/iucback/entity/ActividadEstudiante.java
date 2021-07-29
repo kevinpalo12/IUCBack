@@ -39,7 +39,12 @@ public class ActividadEstudiante {
 	@Column(name = "fecha_inicio")
 	private Date fechaInicio;
 
+	@Column(name = "fecha_fin")
+	private Date fechaFin;
+
 	private String descripcion;
+	
+	private boolean activo;
 
 	
 

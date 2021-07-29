@@ -12,7 +12,7 @@ import api.iuc.iucback.entity.ActividadEstudiantePK;
 
 public interface ActividadEstudianteDao extends JpaRepository<ActividadEstudiante, ActividadEstudiantePK> {
 
-	@Query(value="SELECT ea.* FROM estudiantes_actividades ea " +
+	@Query(value="SELECT ea.descripcion,ea.fecha_inicio,ea.fecha_fin, a.nombre, ea.activo FROM estudiantes_actividades ea left join actividades a on a.id=ea.actividad_id " +
 			   "WHERE ea.estudiante_id = :id", nativeQuery = true)
 		List<Map<String, Object>> findActividad(@Param("id") Long id);
 }

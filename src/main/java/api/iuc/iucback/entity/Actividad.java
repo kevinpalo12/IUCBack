@@ -32,7 +32,6 @@ public class Actividad {
 
 	@PrePersist
 	public void prePersist() {
-
 		nombre=nombre.toUpperCase();
 	}
 

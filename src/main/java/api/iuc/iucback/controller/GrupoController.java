@@ -5,10 +5,14 @@ import java.util.Map;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,5 +54,27 @@ public class GrupoController {
 	@GetMapping("/index")
 	public List<Grupo> index(){
 		return grupoService.findAll();
+	}
+	
+	@GetMapping("/page/{page}")
+	public Page<Grupo> index(@PathVariable int page) {
+		Pageable pageable = PageRequest.of(page, 10);
+		return grupoService.findAll(pageable);
+	}
+	
+	@GetMapping("/nro/{id}")
+	public ResponseEntity<?> nroEstudiantes(@PathVariable long id){
+		
+		Map<String, Object> response = new HashMap<>();
+		try {
+			response.put("numero", grupoService.getNroEstudiantes(id));
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al realizar la consulta en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		response.put("mensaje", "estos son los numeros");
+		
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 }
