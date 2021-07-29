@@ -79,6 +79,11 @@ public class AyudaService implements IAyudaService {
 		Page<Map<String, Object>> paginas = new PageImpl<Map<String, Object>>(fin, pageable, listEstudiantes.size());
 		return paginas;
 	}
+
+	@Override
+	public List<Map<String, Object>> resumenAyudasEstudiates(Long id) {
+		return ayudaDao.ayudasEstudiante(id);
+	}
 	
 	
 }

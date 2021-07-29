@@ -19,6 +19,7 @@ import api.iuc.iucback.entity.ActividadEstudiante;
 import api.iuc.iucback.entity.Estudiante;
 import api.iuc.iucback.repository.ActividadEstudianteDao;
 import api.iuc.iucback.repository.EstudianteDao;
+import api.iuc.iucback.repository.InasistenciaDao;
 
 @Service
 public class EstudianteService implements IEstudianteService {
@@ -28,6 +29,9 @@ public class EstudianteService implements IEstudianteService {
 	
 	@Autowired
 	private ActividadEstudianteDao actividadEstudianteDao;
+	
+	@Autowired
+	private InasistenciaDao inasistenciaDao;
 	
 	@Override
 	@Transactional
@@ -51,7 +55,6 @@ public class EstudianteService implements IEstudianteService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<Estudiante> porGrupo(Long grupo) {		
-		System.out.println(grupo);
 		return estudianteDao.estudiantesGrupo(grupo);
 	}
 
@@ -166,5 +169,12 @@ public class EstudianteService implements IEstudianteService {
 	@Override
 	public ActividadEstudiante setActividad(ActividadEstudiante actividad) {
 		return actividadEstudianteDao.save(actividad);
+	}
+
+
+
+	@Override
+	public Map<String, Object> ultimaInasistencia(Long Id) {
+		return inasistenciaDao.UltimaEstudiante(Id);
 	}
 }

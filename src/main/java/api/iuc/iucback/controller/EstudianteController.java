@@ -50,7 +50,7 @@ public class EstudianteController {
 
 	@Autowired
 	private IAyudaService ayudaService;
-	
+
 	@Autowired
 	private IActividadService actividadService;
 
@@ -163,7 +163,6 @@ public class EstudianteController {
 	public ResponseEntity<?> agregarAyuda(@PathVariable Long idEstudiante, @PathVariable Long idAyuda) {
 		Map<String, Object> response = new HashMap<>();
 		Estudiante estudianteActual = estudianteService.findById(idEstudiante);
-		
 
 		if (estudianteActual == null) {
 			response.put("mensaje", "el estudiante ID: ".concat(
@@ -214,43 +213,54 @@ public class EstudianteController {
 	public List<Map<String, Object>> ayudasById(@PathVariable Long id) {
 		return estudianteService.findAyudas(id);
 	}
-	
+
 	@GetMapping("/{id}")
 	public Estudiante getEstudiante(@PathVariable Long id) {
 		return estudianteService.findById(id);
 	}
-	
+
 	@PostMapping("/agregarActividadEstudiante")
-	public ResponseEntity<?> agregarActividadEstudiante(@RequestBody ActividadEstudiante actividad){
-		Map<String, Object> response = new HashMap<>();	
-		
+	public ResponseEntity<?> agregarActividadEstudiante(@RequestBody ActividadEstudiante actividad) {
+		Map<String, Object> response = new HashMap<>();
+
 		try {
 			actividad.setEstudiante(estudianteService.findById(actividad.getEstudiante().getId()));
 			actividad.setActividad(actividadService.findById(actividad.getActividad().getId()));
 			ActividadEstudiante actividadNueva = estudianteService.setActividad(actividad);
-			response.put("respuesta",actividadNueva);
+			response.put("respuesta", actividadNueva);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al eliminar el estudiante en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);	
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/actividades/{id}")
-	public ResponseEntity<?> actividadesEstudiantes(@PathVariable Long id){
-		Map<String, Object> response = new HashMap<>();	
-		
+	public ResponseEntity<?> actividadesEstudiantes(@PathVariable Long id) {
+		Map<String, Object> response = new HashMap<>();
+
 		try {
 
-			
-			response.put("respuesta",estudianteService.findActividades(id));
+			response.put("actividades", estudianteService.findActividades(id));
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al eliminar el estudiante en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);	
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
+	@GetMapping("/inasistencia/ultima/{id}")
+	public ResponseEntity<?> ultimaInasistencia(@PathVariable Long id) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			response.put("inasistencia", estudianteService.ultimaInasistencia(id));
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al eliminar el estudiante en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
 }

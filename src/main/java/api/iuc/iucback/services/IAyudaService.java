@@ -20,4 +20,6 @@ public interface IAyudaService {
 	public Page<Map<String, Object>> findAllEstudiantes(String descripcion, int page);
 	
 	public List<String> cantAyudas();
+	
+	public List<Map<String, Object>> resumenAyudasEstudiates(Long id);
 }

@@ -35,6 +35,7 @@ public interface IEstudianteService {
 	
 	public ActividadEstudiante setActividad(ActividadEstudiante actividad);
 	
+	public Map<String, Object> ultimaInasistencia(Long Id);
 	
 	
 }

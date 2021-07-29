@@ -27,4 +27,10 @@ public interface AyudaDao extends JpaRepository<Ayuda, Long>{
 	
 	@Query(value="SELECT  descripcion FROM public.ayudas group by descripcion;", nativeQuery = true)
 	List<String> cantAyudas();
+	
+	@Query(value="Select descripcion, Min(fecha_entrega), count(descripcion) from \r\n"
+			+ "(select * from estudiantes_ayudas where estudiante_id = :id) ea left join \r\n"
+			+ "ayudas a on ea.ayudas_id = a.id\r\n"
+			+ "group by descripcion;", nativeQuery = true)
+	List<Map<String, Object>> ayudasEstudiante(@Param("id") Long id);
 }
